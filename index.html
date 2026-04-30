@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="shortcut icon" href="favicon.ico">
+    <title>Revolution WoW – Singleplayer Project</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background: #0a0c12;
+            color: #eef2ff;
+            line-height: 1.5;
+        }
+
+        /* Фон как в WoW */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 30%, #11161f, #030507);
+            z-index: -2;
+        }
+
+        body::after {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" opacity="0.06"><path fill="none" stroke="%23b88b3a" stroke-width="0.8" d="M200,100 L350,40 L500,100 L650,50 L800,90 L950,40 L1050,80"/><circle cx="250" cy="400" r="2" fill="%23c9a04b"/><circle cx="550" cy="200" r="1.5" fill="%23dbb42c"/><circle cx="900" cy="600" r="2.2" fill="%23f3cd81"/></svg>');
+            background-repeat: repeat;
+            background-size: 300px;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+            position: relative;
+        }
+
+        /* Шапка */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 24px 0 20px;
+            flex-wrap: wrap;
+            gap: 20px;
+            border-bottom: 1px solid rgba(210, 180, 110, 0.3);
+        }
+
+        .logo h1 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #f5e2a4, #c99f3e);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .logo p {
+            font-size: 0.8rem;
+            color: #bcac7a;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: #e2dccd;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover {
+            color: #e6bc6e;
+        }
+
+        .btn-download-nav {
+            background: linear-gradient(95deg, #b87c2e, #8b5e1f);
+            padding: 8px 24px;
+            border-radius: 40px;
+            font-weight: 700;
+            color: #111 !important;
+        }
+
+        /* Hero */
+        .hero {
+            text-align: center;
+            padding: 60px 0 50px;
+        }
+
+        .hero h2 {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(to right, #f8efcf, #dcb55a);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 20px auto 0;
+            color: #cbd5e6;
+        }
+
+        .badge {
+            background: #1f1a10;
+            padding: 6px 18px;
+            border-radius: 60px;
+            display: inline-block;
+            font-size: 0.85rem;
+            border: 1px solid #c99f3e;
+            color: #eac27d;
+            margin-bottom: 28px;
+        }
+
+        /* ВИДЕО - просто и работает */
+        .video-block {
+            margin: 40px 0;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            border: 1px solid #c2a15560;
+        }
+
+        .video-block video {
+            width: 100%;
+            display: block;
+        }
+
+        /* Карточки */
+        .features {
+            padding: 50px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 40px;
+        }
+
+        .section-title span {
+            background: linear-gradient(135deg, #f3e0aa, #cb942b);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+        }
+
+        .card {
+            background: rgba(12, 16, 24, 0.8);
+            backdrop-filter: blur(4px);
+            border-radius: 28px;
+            padding: 24px 20px;
+            border: 1px solid rgba(180, 140, 70, 0.4);
+        }
+
+        .card:hover {
+            border-color: #dbaa47;
+        }
+
+        .card h3 {
+            font-size: 1.4rem;
+            margin: 15px 0 10px;
+        }
+
+        .card p {
+            color: #b9c3db;
+            font-size: 0.9rem;
+        }
+
+        /* Инструкция */
+        .howto {
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 48px;
+            padding: 40px;
+            margin: 40px 0;
+        }
+
+        .steps {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .step {
+            flex: 1;
+            text-align: center;
+            background: #0f121be0;
+            padding: 20px;
+            border-radius: 24px;
+        }
+
+        .step-number {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #e2b456;
+        }
+
+        /* Скачивание */
+        .download-area {
+            text-align: center;
+            background: linear-gradient(145deg, #0f111b, #06080f);
+            border-radius: 48px;
+            padding: 50px 24px;
+            margin: 40px 0 60px;
+            border: 1px solid #c2a15540;
+        }
+
+        .btn-launcher {
+            background: #7a561e;
+            border: none;
+            padding: 16px 44px;
+            font-weight: 700;
+            font-size: 1.2rem;
+            border-radius: 60px;
+            color: white;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 20px;
+        }
+
+        .btn-launcher:hover {
+            background: #9b712c;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 0 30px;
+            border-top: 1px solid #2a2a2e30;
+            font-size: 0.8rem;
+            color: #9e9a84;
+        }
+
+        @media (max-width: 700px) {
+            .hero h2 { font-size: 2rem; }
+            .navbar { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <!-- Шапка -->
+    <div class="navbar">
+        <div class="logo">
+            <h1>REVOLUTION WoW</h1>
+            <p>Singleplayer Project • WotLK 3.3.5</p>
+        </div>
+        <div class="nav-links">
+            <a href="#features">Особенности</a>
+            <a href="#howto">Как играть</a>
+            <a href="#download" class="btn-download-nav">Скачать лаунчер</a>
+        </div>
+    </div>
+
+    <!-- Герой -->
+    <div class="hero">
+        <div class="badge">⚔️ WoW 3.3.5a | Полный контроль над миром</div>
+        <h2>Получи одиночный опыт World of Warcraft</h2>
+        <p>Singleplayer Project — возможность играть в WoW как в одиночную RPG с полным контролем над сложностью и миром</p>
+    </div>
+
+    <!-- ВИДЕО (прямая вставка, без YouTube) -->
+    <div class="video-block">
+        <video controls poster="https://via.placeholder.com/1280x720/1a1e2a/c99f3e?text=Wrath+of+the+Lich+King">
+            <source src="video\wotlk.mp4" type="video/mp4">
+            Ваш браузер не поддерживает видео. Скачайте трейлер отдельно.
+        </video>
+    </div>
+
+    <!-- Особенности -->
+    <div id="features" class="features">
+        <div class="section-title"><span>★ Особенности Revolution ★</span></div>
+        <div class="grid">
+            <div class="card">👑 <h3>Singleplayer Core</h3><p>Соло-проход рейдов и подземелий с динамической настройкой сложности</p></div>
+            <div class="card">🤖 <h3>Продвинутые боты</h3><p>Танки, хилы и дд под твоим управлением — рейды в одиночку</p></div>
+            <div class="card">⚙️ <h3>Гибкая настройка</h3><p>Дроп, опыт, сложность и ИИ ботов — всё меняется под твой вкус</p></div>
+            <div class="card">🗺️ <h3>Полный контент 3.3.5</h3><p>Все рейды, данжи и достижения работают от Наксрамаса до Ледяной Цитадели</p></div>
+            <div class="card">🛡️ <h3>Ironman-режимы</h3><p>Хардкор, перманентная смерть и другие челленджи</p></div>
+            <div class="card">💾 <h3>Локальный сервер</h3><p>Не нужен интернет после установки. Полный доступ к базе данных</p></div>
+        </div>
+    </div>
+
+    <!-- Инструкция -->
+    <div id="howto" class="howto">
+        <div style="text-align:center"><span style="font-size:2rem">⚡</span><h3 style="display:inline-block; margin-left:10px">Как начать играть?</h3></div>
+        <div class="steps">
+            <div class="step"><div class="step-number">01</div><h4>Скачай лаунчер</h4><p>Загрузи установщик Revolution WoW Launcher</p></div>
+            <div class="step"><div class="step-number">02</div><h4>Установи</h4><p>Запусти лаунчер и выбери папку</p></div>
+            <div class="step"><div class="step-number">03</div><h4>Запусти сервер</h4><p>Нажми "Start Server" в лаунчере</p></div>
+            <div class="step"><div class="step-number">04</div><h4>Играй!</h4><p>Нажми "Play" и погружайся в Warcraft</p></div>
+        </div>
+    </div>
+
+    <!-- Скачать лаунчер -->
+    <div id="download" class="download-area">
+        <h3>📀 Скачать Revolution WoW Launcher</h3>
+        <p>Установщик автоматически загрузит и настроит клиент + сервер 3.3.5</p>
+        <div style="background:#00000055; display:inline-block; padding:6px 20px; border-radius:60px; margin:15px 0">🚀 Версия 2.3.0 | ~12 MB</div>
+        <br>
+        <a href="download\RevolutionWoW-Setup.exe" class="btn-launcher" id="downloadBtn">⚡ Скачать лаунчер (Windows)</a>
+        <p style="font-size:0.8rem; margin-top:20px">※ После установки лаунчер скачает клиент (~11 ГБ). Нужно ~25 ГБ свободного места.</p>
+        <div id="msg" style="margin-top:15px; font-size:0.85rem"></div>
+    </div>
+
+    <footer>
+        <p>⚔️ Revolution WoW — некоммерческий фанатский проект. World of Warcraft © Blizzard Entertainment.</p>
+        <p style="margin-top:10px">По вопросам: <a href="mailto:revolution@wowsingle.ru" style="color:#e6bc6e">revolution@wowsingle.ru</a></p>
+    </footer>
+</div>
+
+<script>
+    const btn = document.getElementById('downloadBtn');
+    const msgDiv = document.getElementById('msg');
+    
+   
+        
+        
+    });
+    
+    // Плавный скролл
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            const target = this.getAttribute('href');
+            if (target && target !== '#') {
+                const el = document.querySelector(target);
+                if (el) {
+                    e.preventDefault();
+                    el.scrollIntoView({ behavior: 'smooth' });
+                }
+            }
+        });
+    });
+</script>
+</body>
+</html>
